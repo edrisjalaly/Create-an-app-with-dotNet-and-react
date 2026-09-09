@@ -14,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -24,6 +25,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(opt => 
+            opt.AllowAnyHeader().
+                AllowAnyMethod().
+                WithOrigins("http://localhost:3000", "https://localhost:3000"));
 
 app.MapControllers();
 
