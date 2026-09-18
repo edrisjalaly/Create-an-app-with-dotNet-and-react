@@ -1,3 +1,5 @@
+using Application.Activities.Queries;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -12,9 +14,20 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 });
 
 
+// Example if your handlers are in a different assembly
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(GetActiviesList).Assembly);
+});
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+
+
+
+
 
 var app = builder.Build();
 
