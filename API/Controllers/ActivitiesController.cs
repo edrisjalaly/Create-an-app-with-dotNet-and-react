@@ -30,12 +30,10 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Activity>> GetActivityDetail(string id)
         {
-            var activity = await _dbContext.Activities.FindAsync(id);
-
-
-            if (activity == null) return NotFound();
-
-            return activity;
+            return await _mediator.Send(new GetActivityDetails.Query{ Id = id} );
         }
+
+
+
     }
 }
