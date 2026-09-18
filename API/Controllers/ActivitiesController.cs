@@ -9,17 +9,12 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseController
     {
-        private readonly AppDbContext _dbContext;
         private readonly IMediator _mediator;
 
-
-
-        public ActivitiesController(AppDbContext context, IMediator mediator)
+        public ActivitiesController(IMediator mediator)
         {
-            _dbContext = context;
             _mediator = mediator;
         }
-
 
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> GetActivities()
@@ -32,8 +27,5 @@ namespace API.Controllers
         {
             return await _mediator.Send(new GetActivityDetails.Query{ Id = id} );
         }
-
-
-
     }
 }
