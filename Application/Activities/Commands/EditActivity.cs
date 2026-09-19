@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using AutoMapper;
+using Domain;
 using MediatR;
 using Persistence;
 using System;
@@ -19,10 +20,12 @@ namespace Application.Activities.Commands
         public class Handler : IRequestHandler<Command>
         {
             private readonly AppDbContext _context;
+            private readonly IMapper _mapper;
 
-            public Handler(AppDbContext context)
+            public Handler(AppDbContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
@@ -31,9 +34,9 @@ namespace Application.Activities.Commands
                     FindAsync(request.Activity.Id, cancellationToken)
                     ?? throw new Exception("Cannot find Activity");
 
-                activity.Title = request.Activity.Title;
-                await _context.SaveChangesAsync(cancellationToken);
+                _mapper.Map(request.Activity, activity);
 
+                await _context.SaveChangesAsync(cancellationToken);
 
             }
         }
